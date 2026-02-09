@@ -1,0 +1,375 @@
+================================================================================
+GUI AGENT - 生成模块完整Prompt参考 (GENERATION COMPLETE PROMPTS)
+================================================================================
+最后更新: 2025-02-05
+说明: 包含所有5种数据类型的生成提示词（中英文），直接从原始generate脚本提取
+
+================================================================================
+TYPE 1: 单步UI转换 (Single-Step Transitions)
+================================================================================
+
+【中文提示词 - 有Caption】
+────────────────────────────────────────────────────────────────────────────────
+根据第一张截图（参考界面）和以下说明，生成第二张截图，表现用户交互后的新界面状态：
+{caption}
+
+要求：
+- 保持原有风格与布局一致，元素清晰可读
+- 变化合理自然，符合真实应用逻辑
+- 分辨率与参考图一致
+────────────────────────────────────────────────────────────────────────────────
+
+【中文提示词 - 无Caption (Fallback)】
+────────────────────────────────────────────────────────────────────────────────
+根据第一张截图生成一个合理的后续界面，保持风格一致，元素清晰，变化自然。
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词 - 有Caption】
+────────────────────────────────────────────────────────────────────────────────
+Using the first screenshot as reference, generate a second screenshot showing the NEW UI state after user interaction:
+{caption}
+
+Requirements:
+- Preserve style/layout, keep all elements readable
+- Changes should be natural and coherent
+- Match the reference resolution
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词 - 无Caption (Fallback)】
+────────────────────────────────────────────────────────────────────────────────
+Generate a plausible next UI state based on the first screenshot, preserving style and readability with natural progression.
+────────────────────────────────────────────────────────────────────────────────
+
+【关键参数】
+- {caption}: 来自meta_data.json中的caption字段，描述用户交互内容
+- 分辨率: 自动与参考图保持一致
+- 语言选择: 根据lang_device前缀自动选择（chinese_ → 中文，english_ → 英文）
+
+
+================================================================================
+TYPE 2: 多步轨迹生成 (Multi-Step Trajectories - 6 frames)
+================================================================================
+
+【中文提示词】
+────────────────────────────────────────────────────────────────────────────────
+目标：{goal}
+
+进度：第 {step}/5 步
+
+说明：根据任务目标，生成本步交互后的界面。逐步演进：
+• 第1步：开始任务（如打开应用、进入入口）
+• 第2-4步：执行交互（如输入、点击、浏览）
+• 第5步：接近完成（如查看结果、确认）
+
+要求：
+1. 保持参考图的设计风格与布局一致
+2. 变化合理自然，符合真实移动端/桌面端交互
+3. 元素清晰可读，文本和按钮需清楚
+4. 与上一步有连贯的界面变化
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词】
+────────────────────────────────────────────────────────────────────────────────
+Context:
+A mobile GUI agent is completing a task through multi-step interactions.
+
+Goal: {goal}
+
+Progress: Step {step} / 5
+
+Instruction:
+Based on the task goal, generate the interface after step {step}. The agent is progressively advancing:
+• Step 1: Start the task (e.g., open app, activate search)
+• Steps 2-4: Execute interactions (e.g., input, click, browse)
+• Step 5: Approach completion (e.g., view results, confirm answer)
+
+Requirements:
+1. Match the design style and layout from the reference image
+2. Natural progression: Interface changes should be reasonable and gradual
+3. Clear visibility: Ensure all text, buttons, and UI elements are clearly readable
+4. Logical coherence: Show noticeable but not abrupt progress compared to the previous step
+────────────────────────────────────────────────────────────────────────────────
+
+【关键参数】
+- {goal}: 整个多步任务的最终目标（来自meta_data.json的question/caption字段）
+- {step}: 当前步骤号（1-5）
+- 第一帧: 基于text-only prompt生成（无参考图）
+- 第2-5帧: 基于previous_frame参考图逐步生成
+
+
+================================================================================
+TYPE 3 & 4: 虚拟/真实应用轨迹生成 (Virtual/Real App Trajectory)
+================================================================================
+
+【第1帧 - 中文提示词 (First Frame, Text-to-Image)】
+────────────────────────────────────────────────────────────────────────────────
+你是一位专业UI/UX设计师，请为以下应用生成{device_cn}端UI界面截图。
+
+<应用信息>
+应用名称：{app_name}
+最终目标：{final_goal}
+</应用信息>
+
+<视觉描述>
+{visual_description}
+</视觉描述>
+
+<设备类型>
+{device_cn}
+</设备类型>
+
+<风格要求>
+现代原生{device_cn}应用设计
+</风格要求>
+
+<质量检查>
+生成前检查清单：
+☐ 所有文本清晰可读，字体大小适中
+☐ 配色方案与描述完全匹配
+☐ 布局合理，符合{device_cn}屏幕规范
+☐ 包含状态栏、导航栏等标准UI组件
+☐ 符合平台原生设计模式
+☐ 没有幻觉元素，所有组件都在描述中提及
+</质量检查>
+
+<强制约束>
+1. 必须严格遵循视觉描述，不添加未提及的UI元素
+2. 所有文本、图标必须清晰可读
+3. 状态栏、导航栏等固定元素必须完整
+4. 所有界面文本必须使用中文
+5. 仅生成UI截图，不包含任何文字说明或标注
+6. 不得出现用户手指、光标等交互指示
+</强制约束>
+
+直接生成最终的UI截图。
+────────────────────────────────────────────────────────────────────────────────
+
+【第1帧 - 英文提示词 (First Frame, Text-to-Image)】
+────────────────────────────────────────────────────────────────────────────────
+You are a professional UI designer. Generate a {device_en} UI screenshot for this application.
+
+<Application Info>
+App Name: {app_name}
+Final Goal: {final_goal}
+</Application Info>
+
+<Visual Description>
+{visual_description}
+</Visual Description>
+
+<Device Type>
+{device_en}
+</Device Type>
+
+<Style Requirements>
+Modern native {device_en} app design
+</Style Requirements>
+
+<Quality Checklist>
+Pre-generation Checklist:
+☐ All text is clearly readable with appropriate font size
+☐ Color scheme matches the description exactly
+☐ Layout is reasonable and follows {device_en} screen specifications
+☐ Contains standard UI components (status bar, navigation bar, etc.)
+☐ Follows platform-native design patterns
+☐ No hallucinated elements, all components are mentioned in the description
+</Quality Checklist>
+
+<Strict Constraints>
+1. MUST follow the visual description exactly, no hallucinated elements
+2. All text and icons MUST be clearly readable
+3. Fixed UI elements (status bar, nav bar) MUST be complete
+4. All interface text MUST be in English
+5. Generate ONLY the UI screenshot, no text descriptions or annotations
+6. MUST NOT show user finger, cursor, or interaction indicators
+</Strict Constraints>
+
+Generate the final UI screenshot directly.
+────────────────────────────────────────────────────────────────────────────────
+
+【后续帧 - 中文提示词 (Subsequent Frames 2-5, Image-to-Image)】
+────────────────────────────────────────────────────────────────────────────────
+基于参考{device_cn}UI截图，生成用户执行以下操作后的新界面状态：
+
+用户操作：{action}
+
+步骤{step_num}的视觉描述：
+{visual_description}
+
+<设备类型>
+{device_cn}
+</设备类型>
+
+<质量检查>
+生成前检查清单：
+☐ 所有文本清晰可读，字体大小适中
+☐ 配色方案与参考图保持一致
+☐ 布局合理，符合{device_cn}屏幕规范
+☐ 固定元素(状态栏、导航栏等)与参考图保持一致
+☐ 符合平台原生设计模式
+☐ 准确体现用户操作的预期结果
+☐ 仅修改操作影响的UI组件，其他保持不变
+☐ 没有幻觉元素，所有改动都在描述中提及
+</质量检查>
+
+<强制约束>
+1. 必须严格遵循视觉描述，仅修改操作影响的UI组件
+2. 所有文本、图标必须清晰可读
+3. 状态栏、导航栏等固定元素必须与参考图保持一致
+4. 所有界面文本必须使用中文
+5. 仅生成UI截图，不包含任何文字说明或标注
+6. 不得出现用户手指、光标等交互指示
+</强制约束>
+
+直接生成最终的UI截图。
+────────────────────────────────────────────────────────────────────────────────
+
+【后续帧 - 英文提示词 (Subsequent Frames 2-5, Image-to-Image)】
+────────────────────────────────────────────────────────────────────────────────
+Based on the reference {device_en} UI screenshot, generate the next state after the user performs this action:
+
+Action: {action}
+
+Visual Description for Step {step_num}:
+{visual_description}
+
+<Device Type>
+{device_en}
+</Device Type>
+
+<Quality Check>
+Pre-generation Checklist:
+☐ All text is clearly readable with appropriate font size
+☐ Color scheme matches the reference image
+☐ Layout is reasonable and follows {device_en} screen specifications
+☐ Fixed UI elements (status bar, nav bar) match the reference image
+☐ Follows platform-native design patterns
+☐ Accurately reflects the expected result of the user action
+☐ Only modify UI components affected by the action, keep others unchanged
+☐ No hallucinated elements, all changes are mentioned in the description
+</Quality Check>
+
+<Strict Constraints>
+1. MUST follow the visual description exactly, only modify UI components affected by the action
+2. All text and icons MUST be clearly readable
+3. Fixed UI elements (status bar, navigation bar, etc.) MUST match the reference image
+4. All interface text MUST be in English
+5. Generate ONLY the UI screenshot, no text descriptions or annotations
+6. MUST NOT show user finger, cursor, or interaction indicators
+</Strict Constraints>
+
+Generate the final UI screenshot directly.
+────────────────────────────────────────────────────────────────────────────────
+
+【关键参数 - Type 3 & 4】
+- {app_name}: 应用名称（来自trajectory JSON的app_name字段）
+- {final_goal}: 最终任务目标（来自trajectory JSON的final_goal字段）
+- {visual_description}: 当前步骤的视觉描述（来自trajectory JSON steps中的visual_description字段）
+- {action}: 用户操作（来自trajectory JSON steps中的action字段，仅用于后续帧）
+- {step_num}: 当前步骤号（1-5）
+- {device_cn}: 设备类型中文（来自lang_device: "手机"或"电脑"）
+- {device_en}: 设备类型英文（来自lang_device: "mobile phone"或"computer"）
+- 第1帧: 纯文本→图生成（无参考图）
+- 第2-5帧: 参考图+文本→图生成
+
+
+================================================================================
+TYPE 5: 位置感知/Grounding生成 (Spatial Reasoning)
+================================================================================
+
+【坐标归一化处理 (CRITICAL - 必须遵守)】
+────────────────────────────────────────────────────────────────────────────────
+
+坐标提取逻辑：
+  1. 检查grounding.get("type") → "point" 或 "box"/"rectangle"
+  2. 如果type="point": 直接提取 px, py = grounding.get("point")[0:2]
+  3. 如果type="box"或"rectangle": 计算中心点
+     px = (x1 + x2) / 2.0
+     py = (y1 + y2) / 2.0
+
+归一化到[0,1000]范围（根据图片宽高）：
+  if width > 0 and height > 0:
+    nx = int(round(float(px) / float(width) * 1000.0))
+    ny = int(round(float(py) / float(height) * 1000.0))
+  else:
+    nx = int(round(float(px)))
+    ny = int(round(float(py)))
+
+边界约束（保证在有效范围内）：
+  nx = max(0, min(1000, nx))
+  ny = max(0, min(1000, ny))
+
+坐标系统说明：
+  - 原点: 左上角 [0, 0]
+  - x轴: 向右为正
+  - y轴: 向下为正
+  - 范围: [0, 1000] x [0, 1000]
+
+输出格式（JSON字符串，包含在prompt中）：
+  point_json = f'{{"point": [{nx}, {ny}]}}'
+
+【中文提示词】
+────────────────────────────────────────────────────────────────────────────────
+请基于提供的参考图生成下一帧的预测图片：
+交互输入： 用户在屏幕上执行了点击操作，点击位置的归一化坐标为 {point_json}（坐标范围归一化至[0,1000]，原点左上角，x向右，y向下）。
+
+任务要求：
+1) 识别该坐标在原图中所对应的 UI 元素。
+2) 预测并生成点击该元素后，界面发生的即时视觉变化（下一帧）。
+3) 保持页面其他部分的视觉一致性，仅展示交互触发的动态效果（如弹出层、菜单或状态切换）。
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词】
+────────────────────────────────────────────────────────────────────────────────
+Please generate the next-frame prediction based on the provided reference image.
+Interaction input: The user performed a tap; the normalized relative coordinate is {point_json} (normalized to [0,1000], origin at top-left, x→right, y→down).
+
+Task requirements:
+1) Identify the UI element at this coordinate in the reference image.
+2) Predict and render the immediate visual change after tapping this element (the next frame).
+3) Preserve visual consistency elsewhere; show only interaction-triggered dynamics (e.g., popup, menu, or state toggle).
+────────────────────────────────────────────────────────────────────────────────
+
+【关键参数 - Type 5】
+- {point_json}: 归一化坐标JSON，格式为 {"point": [nx, ny]}
+- width: 参考图宽度（像素）
+- height: 参考图高度（像素）
+- nx, ny: 归一化到[0,1000]的坐标
+- 示例坐标计算:
+  - 原始坐标: (270, 500), 图片尺寸: 1080x2244
+  - 归一化: nx = round(270 / 1080 * 1000) = 250
+  - 归一化: ny = round(500 / 2244 * 1000) = 223
+  - 输出: {"point": [250, 223]}
+
+
+================================================================================
+第二部分：代码实现位置和接入方式
+================================================================================
+
+【生成模块文件位置】
+  - Type 1: gui_agent/generation/type1.py - Type1PromptBuilder.build()
+  - Type 2: gui_agent/generation/type2.py - Type2PromptBuilder.build()
+  - Type 3/4: gui_agent/generation/type34.py - Type3Type4PromptBuilder.build()
+  - Type 5: gui_agent/generation/type5.py - Type5PromptBuilder.build()
+
+【命令行使用方式】
+  python scripts/generate.py --data-type type1 --data-folder data/01_single_step --output-dir outputs/gemini
+  python scripts/generate.py --data-type type2 --data-folder data/02_multi_step --output-dir outputs/gemini
+  python scripts/generate.py --data-type type3 --data-folder data/03_trajectory_text_fictionalapp --output-dir outputs/gemini
+  python scripts/generate.py --data-type type4 --data-folder data/04_trajectory_text_realapp --output-dir outputs/gemini
+  python scripts/generate.py --data-type type5 --data-folder data/05_grounding_data --output-dir outputs/gemini
+
+【语言自动选择机制】
+  - lang_device变量来自: 数据目录名（如chinese_phone、english_computer）
+  - 检测方式: lang_device.startswith("chinese") → 中文; 否则 → 英文
+  - 适用于: Type 1, 2, 3, 4, 5
+  - 在Type 3/4中，device_cn_en通过_get_device_type()自动转换
+    - "phone" → ("手机", "mobile phone")
+    - "computer" → ("电脑", "computer")
+
+【分辨率处理】
+  - Type 1-2: 自动根据参考图分辨率生成（Gemini API自动处理）
+  - Type 3-4: 从trajectory JSON读取width/height字段
+  - Type 5: 从meta_data.json读取width/height字段，用于坐标归一化
+
+================================================================================

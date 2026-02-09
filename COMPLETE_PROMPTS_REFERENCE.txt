@@ -1,0 +1,458 @@
+================================================================================
+GUI AGENT - 完整生成和评估提示词参考
+================================================================================
+更新: 2025-02-05
+说明: 生成部分包含完整的中英文提示词；评估部分仅包含英文提示词
+
+================================================================================
+第一部分：生成模块完整提示词 (Generation Prompts)
+================================================================================
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 1: 单步UI转换 (Single-Step Transitions)
+════════════════════════════════════════════════════════════════════════════════
+
+【中文提示词】
+────────────────────────────────────────────────────────────────────────────────
+根据第一张截图（参考界面）和以下说明，生成第二张截图，表现用户交互后的新界面状态：
+{caption}
+
+要求：
+- 保持原有风格与布局一致，元素清晰可读
+- 变化合理自然，符合真实应用逻辑
+- 分辨率与参考图一致
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词】
+────────────────────────────────────────────────────────────────────────────────
+Using the first screenshot as reference, generate a second screenshot showing the NEW UI state after user interaction:
+{caption}
+
+Requirements:
+- Preserve style/layout, keep all elements readable
+- Changes should be natural and coherent
+- Match the reference resolution
+────────────────────────────────────────────────────────────────────────────────
+
+【关键要求】
+- 保持参考图的设计风格与布局
+- 元素必须清晰可读
+- 变化要合理自然，符合真实应用逻辑
+- 生成图的分辨率与参考图一致
+
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 2: 多步轨迹生成 (Multi-Step Trajectories - 6 frames)
+════════════════════════════════════════════════════════════════════════════════
+
+【中文提示词】
+────────────────────────────────────────────────────────────────────────────────
+目标：{goal}
+
+进度：第 {step}/5 步
+
+说明：根据任务目标，生成本步交互后的界面。逐步演进：
+• 第1步：开始任务（如打开应用、进入入口）
+• 第2-4步：执行交互（如输入、点击、浏览）
+• 第5步：接近完成（如查看结果、确认）
+
+要求：
+1. 保持参考图的设计风格与布局一致
+2. 变化合理自然，符合真实移动端/桌面端交互
+3. 元素清晰可读，文本和按钮需清楚
+4. 与上一步有连贯的界面变化
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词】
+────────────────────────────────────────────────────────────────────────────────
+Context:
+A mobile GUI agent is completing a task through multi-step interactions.
+
+Goal: {goal}
+
+Progress: Step {step} / 5
+
+Instruction:
+Based on the task goal, generate the interface after step {step}. The agent is progressively advancing:
+• Step 1: Start the task (e.g., open app, activate search)
+• Steps 2-4: Execute interactions (e.g., input, click, browse)
+• Step 5: Approach completion (e.g., view results, confirm answer)
+
+Requirements:
+1. Match the design style and layout from the reference image
+2. Natural progression with reasonable and gradual changes
+3. Clear visibility: All text, buttons and UI elements must be readable
+4. Logical coherence: Show noticeable but not abrupt progress
+────────────────────────────────────────────────────────────────────────────────
+
+【关键要求】
+- 逐步演进：每一步都要有合理的界面变化
+- 设计风格一致：保持参考图的风格和布局
+- 元素清晰：所有文本、按钮必须清楚可读
+- 逻辑连贯：步骤间的变化要自然，不突兀
+
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 3: 虚拟应用轨迹生成 (Virtual App Trajectory)
+════════════════════════════════════════════════════════════════════════════════
+
+【中文提示词】
+────────────────────────────────────────────────────────────────────────────────
+任务说明：{instruction}
+
+第 {step}/5 步
+
+请基于任务说明，为这一步生成相应的移动界面截图。
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词】
+────────────────────────────────────────────────────────────────────────────────
+Task: {instruction}
+
+Step {step}/5
+
+Generate a mobile UI screenshot for this step based on the task instruction.
+────────────────────────────────────────────────────────────────────────────────
+
+【关键要求】
+- 根据任务说明生成合理的移动UI截图
+- 每一步都要在前一步的基础上继续演进
+- 最终(第5步)应该完成任务
+
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 4: 真实应用轨迹生成 (Real App Trajectory)
+════════════════════════════════════════════════════════════════════════════════
+
+【中文提示词】
+────────────────────────────────────────────────────────────────────────────────
+任务说明：{instruction}
+
+第 {step}/5 步
+
+请基于任务说明，为这一步生成相应的真实应用界面截图。
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词】
+────────────────────────────────────────────────────────────────────────────────
+Task: {instruction}
+
+Step {step}/5
+
+Generate a real app UI screenshot for this step based on the task instruction.
+────────────────────────────────────────────────────────────────────────────────
+
+【关键要求】
+- 生成真实应用的UI界面（而非虚拟设计）
+- 每一步都要在前一步的基础上继续演进
+- 最终(第5步)应该完成任务
+- 遵循真实应用的UI设计规范
+
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 5: 位置感知/Grounding生成 (Spatial Reasoning)
+════════════════════════════════════════════════════════════════════════════════
+
+【坐标归一化处理（CRITICAL）】
+────────────────────────────────────────────────────────────────────────────────
+
+坐标提取逻辑：
+  - 检查grounding类型: point 或 box/rectangle
+  - Point: 直接提取 [px, py]
+  - Box: 计算中心点 px=(x1+x2)/2, py=(y1+y2)/2
+
+归一化到[0,1000]范围：
+  nx = int(round(float(px) / float(width) * 1000.0))
+  ny = int(round(float(py) / float(height) * 1000.0))
+
+边界约束：
+  nx = max(0, min(1000, nx))
+  ny = max(0, min(1000, ny))
+
+坐标系统说明：
+  - 原点: 左上角 [0, 0]
+  - x轴: 向右为正
+  - y轴: 向下为正
+  - 范围: [0, 1000] x [0, 1000]
+
+输出格式：
+  point_json = f'{{"point": [{nx}, {ny}]}}'
+
+【中文提示词】
+────────────────────────────────────────────────────────────────────────────────
+请基于提供的参考图生成下一帧的预测图片：
+交互输入： 用户在屏幕上执行了点击操作，点击位置的归一化坐标为 {point_json}（坐标范围归一化至[0,1000]，原点左上角，x向右，y向下）。
+
+任务要求：
+1) 识别该坐标在原图中所对应的 UI 元素。
+2) 预测并生成点击该元素后，界面发生的即时视觉变化（下一帧）。
+3) 保持页面其他部分的视觉一致性，仅展示交互触发的动态效果（如弹出层、菜单或状态切换）。
+────────────────────────────────────────────────────────────────────────────────
+
+【英文提示词】
+────────────────────────────────────────────────────────────────────────────────
+Please generate the next-frame prediction based on the provided reference image.
+Interaction input: The user performed a tap; the normalized relative coordinate is {point_json} (normalized to [0,1000], origin at top-left, x→right, y→down).
+
+Task requirements:
+1) Identify the UI element at this coordinate in the reference image.
+2) Predict and render the immediate visual change after tapping this element (the next frame).
+3) Preserve visual consistency elsewhere; show only interaction-triggered dynamics (e.g., popup, menu, or state toggle).
+────────────────────────────────────────────────────────────────────────────────
+
+【关键要求】
+- 坐标提取和归一化必须准确
+- 正确识别坐标对应的UI元素
+- 生成合理的交互反馈效果
+- 保持其他区域的视觉一致性
+- 仅显示交互触发的动态变化
+
+
+================================================================================
+第二部分：评估模块完整提示词 (Evaluation Prompts - English Only)
+================================================================================
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 1 EVALUATION PROMPT
+════════════════════════════════════════════════════════════════════════════════
+
+⚠️ BLIND EVALUATION MODE
+- The model identity is anonymized. Do NOT infer quality from names.
+- Evaluate SOLELY based on visual evidence and the provided text descriptions.
+
+You are an EXTREMELY HARSH, UNCOMPROMISING GUI CHANGE EVALUATION EXPERT. Score ONLY by visual evidence. High scores (4-5) require near-perfect evidence.
+
+You will receive:
+- Initial Image: the UI state BEFORE the operation
+- Generated Image: the model's predicted UI state AFTER the operation
+- Caption: a natural language description of what changed / what should happen
+
+Score 5 dimensions (0-5 integers, EXTREMELY STRICT):
+
+**goal** (Goal Achievement): Does the generated state achieve the caption-described change?
+- 5: Caption change is achieved completely and unambiguously. All key elements mentioned in the caption are present and correctly transformed. No ambiguity about whether the change matches the description.
+- 4: Goal is achieved with only minor, non-critical omissions or formatting differences. The core change is clearly visible and matches the caption, but there might be slight differences in layout, text formatting, or minor elements not central to the goal.
+- 3: Goal is mostly achieved but key details are ambiguous/partially missing. The main intent is recognizable, but important elements are unclear, partially implemented, or require inference to confirm they match the caption.
+- 2: Partial achievement; only a small portion of the intended change is visible. Most of the expected transformation is missing or incorrect, though some elements loosely relate to the caption.
+- 1: Barely related; the change does not match caption semantics. There might be a superficial similarity, but the core change described in the caption is not present.
+- 0: Complete failure; no relevant change or totally wrong change. The generated image shows either no change from the initial state or a change completely unrelated to the caption.
+
+**logic** (Interaction/State Logic): Is the change consistent with plausible GUI interaction and state transitions?
+- 5: Transitions are fully plausible and consistent with standard UI behavior. The change follows natural GUI interaction patterns, state transitions are logical, and there are no impossible jumps or discontinuities. The transformation looks like a real UI would behave.
+- 4: Mostly plausible; minor implausibility but still credible. The overall transition makes sense, but there might be slight inconsistencies that don't break the believability of the interaction.
+- 3: Some implausible elements; still partially coherent. The change shows recognizable UI logic in parts, but contains elements that don't follow standard interaction patterns.
+- 2: Largely implausible; broken state transition or inconsistent UI behavior. The change shows significant logical problems.
+- 1: Almost entirely illogical; UI changes contradict basic interaction patterns. The transformation violates fundamental UI principles.
+- 0: Impossible; severe "teleportation" or nonsensical transformation.
+
+**consistency** (Preservation): Are unrelated regions preserved from the Initial Image?
+- 5: Unaffected regions are preserved nearly perfectly. Every pixel outside the directly affected area is identical between Initial and Generated images.
+- 4: Minor drift (small shifts, slight color/blur changes) but clearly preserved.
+- 3: Noticeable drift in multiple areas, but the overall UI identity is maintained.
+- 2: Significant unintended changes outside the target region.
+- 1: Widespread unintended changes; most of the UI is altered.
+- 0: Entire screen is corrupted or replaced.
+
+**ui** (UI Plausibility/Integrity): Are UI elements plausible (no hallucinations, broken layout)?
+- 5: UI components are coherent, correctly structured, and look native. All elements follow platform conventions.
+- 4: Mostly coherent; minor layout/element issues.
+- 3: Several element/layout issues but still resembles a usable UI.
+- 2: Many hallucinations or severe layout problems.
+- 1: UI is mostly broken; elements are nonsensical.
+- 0: UI is unusable or completely hallucinated.
+
+**quality** (Visual Quality): Visual readability (text/icon clarity, artifacts).
+- 5: Crisp, readable, no obvious artifacts.
+- 4: Very readable; minor blur/artifacts.
+- 3: Readable but noticeable blur/artifacts in important areas.
+- 2: Significant quality degradation; text/icons hard to read.
+- 1: Severe artifacts; most text is unreadable.
+- 0: Completely unusable image quality.
+
+Essential Rules:
+- Judge ONLY by visual evidence and the provided caption
+- DO NOT invent or assume details not visible in images
+- Be EXTREMELY conservative with high scores (4-5 require ironclad evidence)
+- Justifications must be concise (≤2 sentences) and cite concrete observations
+- If uncertain, assign lower score
+
+Output ONLY JSON:
+{
+  "goal": {"s": <0-5>, "j": "<justification>"},
+  "logic": {"s": <0-5>, "j": "<justification>"},
+  "consistency": {"s": <0-5>, "j": "<justification>"},
+  "ui": {"s": <0-5>, "j": "<justification>"},
+  "quality": {"s": <0-5>, "j": "<justification>"}
+}
+
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 2 EVALUATION PROMPT
+════════════════════════════════════════════════════════════════════════════════
+
+You are a GUI trajectory evaluation expert. Evaluate a 6-frame UI trajectory sequence.
+
+You will receive:
+- Frame 0: Initial state (reference)
+- Frames 1-5: Generated sequence showing task progression
+
+Evaluate across 5 dimensions (0-5):
+
+**task_completion**: Does Frame 5 show achievement of the stated goal?
+**interaction_logic**: Are transitions between frames logical and coherent?
+**visual_consistency**: Do UI elements remain stable across frames (no jitter, corruption)?
+**element_integrity**: Are UI elements native-looking (no hallucinations, impossible states)?
+**visual_quality**: Are images clear (good text readability, minimal artifacts)?
+
+Scoring rubric: 5=Perfect, 4=Minor issues, 3=Moderate issues, 2=Significant problems, 1=Severe issues, 0=Complete failure
+
+Output ONLY JSON:
+{
+  "task_completion": {"s": <0-5>, "j": "<brief justification>"},
+  "interaction_logic": {"s": <0-5>, "j": "<brief justification>"},
+  "visual_consistency": {"s": <0-5>, "j": "<brief justification>"},
+  "element_integrity": {"s": <0-5>, "j": "<brief justification>"},
+  "visual_quality": {"s": <0-5>, "j": "<brief justification>"}
+}
+
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 3 EVALUATION PROMPT
+════════════════════════════════════════════════════════════════════════════════
+
+You are a fictional app trajectory evaluation expert.
+
+Evaluate a multi-frame UI trajectory sequence based on:
+- Instruction: The user's natural language instruction/goal
+- Generated frames: Model's predicted UI progression
+
+Evaluate across 5 dimensions (0-5):
+
+**trajectory_text_alignment**: Does the sequence follow the instruction trajectory?
+**interaction_logic**: Are transitions between frames logical and coherent?
+**visual_consistency**: Do UI elements remain stable across frames?
+**element_integrity**: Are UI elements native-looking (no hallucinations)?
+**visual_quality**: Are images clear with good text readability?
+
+Scoring: 5=Perfect, 4=Minor issues, 3=Moderate, 2=Significant problems, 1=Severe, 0=Complete failure
+
+Output ONLY JSON:
+{
+  "trajectory_text_alignment": {"s": <0-5>, "j": "<brief justification>"},
+  "interaction_logic": {"s": <0-5>, "j": "<brief justification>"},
+  "visual_consistency": {"s": <0-5>, "j": "<brief justification>"},
+  "element_integrity": {"s": <0-5>, "j": "<brief justification>"},
+  "visual_quality": {"s": <0-5>, "j": "<brief justification>"}
+}
+
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 4 EVALUATION PROMPT
+════════════════════════════════════════════════════════════════════════════════
+
+You are a real app trajectory evaluation expert.
+
+Evaluate a multi-frame UI trajectory sequence showing real app interactions:
+- Instruction: The user's natural language instruction/goal
+- Generated frames: Model's predicted UI progression for real apps
+
+Evaluate across 5 dimensions (0-5):
+
+**trajectory_text_alignment**: Does the sequence follow the instruction trajectory?
+**interaction_logic**: Are transitions between frames logical and coherent?
+**visual_consistency**: Do UI elements remain stable across frames?
+**element_integrity**: Are UI elements native-looking (no hallucinations)?
+**visual_quality**: Are images clear with good text readability?
+
+Scoring: 5=Perfect, 4=Minor issues, 3=Moderate, 2=Significant problems, 1=Severe, 0=Complete failure
+
+Output ONLY JSON:
+{
+  "trajectory_text_alignment": {"s": <0-5>, "j": "<brief justification>"},
+  "interaction_logic": {"s": <0-5>, "j": "<brief justification>"},
+  "visual_consistency": {"s": <0-5>, "j": "<brief justification>"},
+  "element_integrity": {"s": <0-5>, "j": "<brief justification>"},
+  "visual_quality": {"s": <0-5>, "j": "<brief justification>"}
+}
+
+
+════════════════════════════════════════════════════════════════════════════════
+TYPE 5 EVALUATION PROMPT
+════════════════════════════════════════════════════════════════════════════════
+
+You are a grounding/spatial task evaluation expert.
+
+Evaluate whether the generated UI correctly implements the grounding task specified in the instruction.
+
+Dimensions:
+- **location_accuracy**: Are spatial references from the instruction correctly represented?
+- **interaction_logic**: Does the UI show logical state for the specified task?
+- **element_integrity**: Are UI elements plausible and native-looking?
+- **visual_quality**: Is the image clear and readable?
+- **instruction_adherence**: Does the overall output match the given instruction?
+
+Each dimension: 0-5 scale
+
+Output ONLY JSON:
+{
+  "location_accuracy": {"s": <0-5>, "j": "<justification>"},
+  "interaction_logic": {"s": <0-5>, "j": "<justification>"},
+  "element_integrity": {"s": <0-5>, "j": "<justification>"},
+  "visual_quality": {"s": <0-5>, "j": "<justification>"},
+  "instruction_adherence": {"s": <0-5>, "j": "<justification>"}
+}
+
+
+================================================================================
+第三部分：关键实现细节
+================================================================================
+
+【分辨率处理】
+
+生成模块 (Type 1-4):
+  - 所有提示词中都明确要求"保持参考图分辨率"或"Match the reference resolution"
+  - 依赖Gemini API自动处理输出尺寸调整
+  - 生成的图像应该与参考图的分辨率一致
+
+生成模块 (Type 5 Grounding):
+  - 坐标归一化处理位置: gui_agent/generation/type5.py 行49-62
+  - 归一化公式: nx = int(round(float(px) / float(width) * 1000.0))
+  - 处理边界情况: 如果width或height为0，则直接使用原始坐标
+  - 边界约束: nx = max(0, min(1000, nx))
+  - 坐标系统: 原点左上角，x向右为正，y向下为正
+
+【语言自动选择机制】
+
+所有生成模块都使用相同的语言检测逻辑：
+  is_chinese = lang_device.startswith("chinese")
+  if is_chinese:
+      # 使用中文提示词
+  else:
+      # 使用英文提示词
+
+这确保了folder名称中包含"chinese_"前缀的样本自动使用中文提示词，
+而包含"english_"前缀的样本使用英文提示词。
+
+【评估提示词选择】
+
+评估模块使用统一的get_eval_prompt()函数：
+  - 位置: gui_agent/evaluation/prompts.py 行362-386
+  - 参数: data_type (type1-5), lang_device
+  - 逻辑: is_chinese = lang_device.startswith("chinese")
+  - 返回: 相应的中文或英文评估提示词
+
+【维度映射】
+
+Type 1:
+  生成强调: 实现文字→评估goal, 合理自然→评估logic, 风格布局→评估consistency, 清晰可读→评估quality, UI完整→评估ui
+
+Type 2:
+  生成强调: 实现目标→评估task_completion, 逐步演进→评估interaction_logic, 稳定一致→评估visual_consistency, 清晰可读→评估visual_quality, UI完整→评估element_integrity
+
+Type 3/4:
+  生成强调: 遵循指令→评估trajectory_text_alignment, 逻辑连贯→评估interaction_logic, 稳定一致→评估visual_consistency, 清晰可读→评估visual_quality, UI完整→评估element_integrity
+
+Type 5:
+  生成强调: 坐标准确→评估location_accuracy, 交互合理→评估interaction_logic, 遵循指令→评估instruction_adherence, 清晰质量→评估visual_quality, UI完整→评估element_integrity
+
+================================================================================
