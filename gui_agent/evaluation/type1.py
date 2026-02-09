@@ -106,7 +106,7 @@ class Type1Judge(BaseJudge):
     def _parse_scores(response_dict: Dict) -> Dict[str, int]:
         """Parse scores from evaluator response."""
         scores = {}
-        dimension_names = ["goal", "logic", "consistency", "ui", "quality"]
+        dimension_names = ["goal", "logic", "cons", "ui", "qual"]
 
         for dim in dimension_names:
             if dim in response_dict:

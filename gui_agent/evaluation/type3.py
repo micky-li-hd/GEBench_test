@@ -107,7 +107,7 @@ class Type3Judge(BaseJudge):
         """Parse scores from evaluator response."""
         scores = {}
         # Type 3 uses: goal, logic, consistency, ui, quality
-        dimension_names = ["goal", "logic", "consistency", "ui", "quality"]
+        dimension_names = ["goal", "logic", "cons", "ui", "qual"]
 
         for dim in dimension_names:
             if dim in response_dict:

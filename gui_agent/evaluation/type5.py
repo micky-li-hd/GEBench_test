@@ -115,7 +115,7 @@ class Type5Judge(BaseJudge):
         """Parse scores from evaluator response."""
         scores = {}
         # Type 5 uses: goal, logic, consistency, ui, quality
-        dimension_names = ["goal", "logic", "consistency", "ui", "quality"]
+        dimension_names = ["goal", "logic", "cons", "ui", "qual"]
 
         for dim in dimension_names:
             if dim in response_dict:
