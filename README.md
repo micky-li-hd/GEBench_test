@@ -6,7 +6,7 @@ A lightweight toolkit for generating and evaluating GUI screenshots using Gemini
 
 [![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/YOUR_PAPER_ID)
 [![Project Page](https://img.shields.io/badge/Project-Page-blue)](YOUR_PROJECT_PAGE_URL)
-[![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-green)](YOUR_HUGGINGFACE_DATASET_URL)
+[![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-green)](https://huggingface.co/datasets/stepfun-ai/GEBench)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Task: GUI Generation](https://img.shields.io/badge/Task-GUI%20Generation-1E90FF)
 [![GitHub stars](https://img.shields.io/github/stars/micky-li-hd/GEBench_test?style=social)](https://github.com/micky-li-hd/GEBench_test)
