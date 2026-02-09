@@ -1,6 +1,4 @@
-# GUI Agent - Text-to-GUI Generation & Evaluation Toolkit
-
-A lightweight toolkit for generating and evaluating GUI screenshots using Gemini API and GPT-4o for assessment.
+# GEBench: Benchmarking Image Generation Models as GUI Environments
 
 <div align="center">
 
