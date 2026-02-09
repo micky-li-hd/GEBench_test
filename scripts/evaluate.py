@@ -3,9 +3,9 @@
 Evaluate GUI generation with GPT-4o.
 
 Usage:
-    python scripts/evaluate_gpt4o.py --data-type type1 --output-folder outputs/gemini/01_single_step --dataset-root data
-    python scripts/evaluate_gpt4o.py --data-type type2 --output-folder outputs/gemini/02_multi_step --dataset-root data
-    python scripts/evaluate_gpt4o.py --data-type type5 --output-folder outputs/gemini/05_grounding_data --dataset-root data
+    python scripts/evaluate.py --data-type type1 --output-folder outputs/gemini/01_single_step --dataset-root data
+    python scripts/evaluate.py --data-type type2 --output-folder outputs/gemini/02_multi_step --dataset-root data
+    python scripts/evaluate.py --data-type type5 --output-folder outputs/gemini/05_grounding_data --dataset-root data
 """
 
 import argparse
