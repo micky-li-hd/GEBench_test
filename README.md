@@ -44,7 +44,7 @@ git lfs pull
 ```bash
 git clone https://github.com/micky-li-hd/GEBench_test.git
 cd GEBench_test/code
-pip install -e .
+pip install -r requirements.txt
 ```
 
 ### Generate Images
