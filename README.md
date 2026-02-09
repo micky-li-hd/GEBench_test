@@ -22,7 +22,7 @@
 
 The GEBench dataset is available on HuggingFace:
 
-📊 **[stepfun-ai/GEBench](https://huggingface.co/datasets/stepfun-ai/GEBench)** - HuggingFace Datasets Hub
+📊 **[StepFun-ai/GEBench](https://huggingface.co/datasets/stepfun-ai/GEBench)** - HuggingFace Datasets Hub
 
 To download:
 ```bash
