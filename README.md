@@ -2,6 +2,17 @@
 
 A lightweight toolkit for generating and evaluating GUI screenshots using Gemini API and GPT-4o for assessment.
 
+<div align="center">
+
+[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/YOUR_PAPER_ID)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue)](YOUR_PROJECT_PAGE_URL)
+[![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-green)](YOUR_HUGGINGFACE_DATASET_URL)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Task: GUI Generation](https://img.shields.io/badge/Task-GUI%20Generation-1E90FF)
+[![GitHub stars](https://img.shields.io/github/stars/micky-li-hd/GEBench_test?style=social)](https://github.com/micky-li-hd/GEBench_test)
+
+</div>
+
 ## Features
 
 - **5 Data Types**: Type 1 (single-step), Type 2 (multi-step), Type 3 (virtual trajectory), Type 4 (real trajectory), Type 5 (grounding)
@@ -14,8 +25,8 @@ A lightweight toolkit for generating and evaluating GUI screenshots using Gemini
 ### Installation
 
 ```bash
-git clone https://github.com/anthropic/gui-agent.git
-cd gui-agent
+git clone https://github.com/micky-li-hd/GEBench_test.git
+cd GEBench_test/code
 pip install -e .
 ```
 
