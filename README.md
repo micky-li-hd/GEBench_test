@@ -42,8 +42,15 @@ git lfs pull
 ### Installation
 
 ```bash
+# Clone repository
 git clone https://github.com/micky-li-hd/GEBench_test.git
 cd GEBench_test/code
+
+# Create conda environment
+conda create -n gebench python=3.10 -y
+conda activate gebench
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
