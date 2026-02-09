@@ -4,7 +4,7 @@ A lightweight toolkit for generating and evaluating GUI screenshots using Gemini
 
 <div align="center">
 
-[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/YOUR_PAPER_ID)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](./assets/GEBench.pdf)
 [![Project Page](https://img.shields.io/badge/Project-Page-blue)](YOUR_PROJECT_PAGE_URL)
 [![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-green)](https://huggingface.co/datasets/stepfun-ai/GEBench)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -71,54 +71,6 @@ python scripts/evaluate.py --data-type type5 --output-folder outputs/gemini/05_g
 
 # With multiple workers
 python scripts/evaluate.py --data-type type1 --output-folder outputs/gemini/01_single_step --dataset-root data --openai-api-key YOUR_OPENAI_API_KEY --workers 4
-```
-
-## Project Structure
-
-```
-gui_agent/
-├── generation/      # Type 1-5 generators + Gemini provider
-├── evaluation/      # Type 1-5 judges + GPT-4o provider
-├── api.py          # Generator & Evaluator classes
-├── config.py       # Configuration
-└── schemas.py      # Data models
-
-scripts/
-├── generate.py     # Image generation
-└── evaluate.py     # Evaluation with GPT-4o
-```
-
-## Python API
-
-```python
-from gui_agent import Generator, GenerationConfig
-from pathlib import Path
-
-config = GenerationConfig(
-    provider="gemini",
-    api_key="your-api-key",
-    output_dir=Path("outputs/gemini")
-)
-
-gen = Generator(config)
-gen.generate(data_type="type1", data_folder=Path("data/01_single_step"))
-```
-
-```python
-from gui_agent import Evaluator, EvaluationConfig
-from pathlib import Path
-
-config = EvaluationConfig(
-    judge="gpt4o",
-    api_key="your-api-key",
-    dataset_root=Path("data")
-)
-
-evaluator = Evaluator(config)
-results = evaluator.evaluate(
-    data_type="type1",
-    output_folder=Path("outputs/gemini/01_single_step")
-)
 ```
 
 ## License
